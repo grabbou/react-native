@@ -8,6 +8,7 @@
     "http-server": "^0.11.1"
   },
   "scripts": {
+    "start": "bsb -make-world -w",
     "start:server": "http-server -p 8081",
     "build": "bsb -make-world"
   }

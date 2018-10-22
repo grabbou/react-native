@@ -1,9 +1,8 @@
 {
-  "name": "example",
+  "name": "reasonml-example",
   "sources": [
     {
-      "dir": "src",
-      "public": "all"
+      "dir": "src"
     }
   ],
   "bsc-flags": ["-bs-super-errors"],
@@ -11,10 +10,9 @@
     "react-jsx": 2
   },
   "refmt": 3,
-  "package-specs": [
-    {
-      "module": "es6",
-    }
-  ],
+  "package-specs": [{
+    "module": "commonjs",
+    "in-source": true
+  }],
   "suffix": ".bs.js"
 }
