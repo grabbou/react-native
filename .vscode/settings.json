@@ -21,6 +21,7 @@
     "*.ipa": "explorerExcludedFiles",
     "*.xcuserstate": "explorerExcludedFiles",
     "project.xcworkspace": "explorerExcludedFiles",
+    "Example/lib": "explorerExcludedFiles",
     "build/": "explorerExcludedFiles",
     "RNTester/android/app/build/": "explorerExcludedFiles",
     "RNTester/android/app/gradle/": "explorerExcludedFiles",

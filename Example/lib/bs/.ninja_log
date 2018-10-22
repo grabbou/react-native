@@ -1,8 +1,0 @@
-# ninja log v5
-1	117	1540226432	src/index.mlast	d3794514e0a773
-117	129	1540226432	src/index.mlast.d	fe58e0a92ce7c5c
-1	15	1540226432	src/index.cmj	d49d13dd368d956c
-1	15	1540226432	src/index.cmi	d49d13dd368d956c
-0	35	1540226683	src/index.cmj	352369485fd2c53a
-0	35	1540226683	/Users/gregoirevda/dev/opensource/rn-fork/Example/src/index.bs.js	352369485fd2c53a
-0	35	1540226683	src/index.cmi	352369485fd2c53a

@@ -16,7 +16,7 @@
 {
   NSURL *jsCodeLocation;
 
-  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/src/index.bs.js"];
+  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/bundle.js"];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"RNTester"
