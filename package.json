@@ -118,8 +118,7 @@
     "React",
     "ReactAndroid",
     "ReactCommon",
-    "README.md",
-    "third-party-podspecs"
+    "README.md"
   ],
   "scripts": {
     "start": "node ./local-cli/cli.js start",
