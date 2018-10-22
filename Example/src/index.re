@@ -1,1 +1,1 @@
-let x = "a";
+raise(Sys_error("Test"));

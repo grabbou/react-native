@@ -11,6 +11,12 @@
   "scripts": {
     "start": "bsb -make-world -w",
     "start:server": "cd ./lib && http-server -p 8081 -c-1",
-    "build": "bsb -make-world && rollup lib/es6/src/index.bs.js --format iife --name \"bundle\" --file lib/bundle.js"
+    "build": "bsb -make-world",
+    "build:watch": "bsb -make-world -w",
+    "rollup": "rollup -c --watch",
+    "rollup:watch": "rollup -c"
+  },
+  "dependencies": {
+    "rollup-plugin-node-resolve": "^3.4.0"
   }
 }
