@@ -4,7 +4,7 @@ const path = require('path');
 const paths = require("./paths.js");
 
 module.exports = {
-  entry: './lib/es6/src/index.bs.js',
+  entry: ['error-guard','./lib/es6/src/index.bs.js'],
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'lib')

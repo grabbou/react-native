@@ -42,7 +42,7 @@ let runApplication = (appKey, appParameters) => {
 };
 
 let unmountApplicationComponentAtRootTag = rootTag =>
-  ReactNative.unmountComponentAtNodeAndRemoveContainer(rootTag);
+  UIManager.removeRootView(rootTag);
 
 let registerHeadlessTask = (taskKey: string, taskProvider: taskProvider) =>
   Belt.MutableMap.String.set(tasks, taskKey, taskProvider);
@@ -80,4 +80,8 @@ let appRegistry: registry =
     ~startHeadlessTask,
   );
 
-BatchedBridge.registerCallableModule("AppRegistry", appRegistry);
+MessageQueueRe.registerCallableModuleGet(
+  BatchedBridge.batchedBridge,
+  "AppRegistry",
+  Obj.magic(appRegistry),
+);

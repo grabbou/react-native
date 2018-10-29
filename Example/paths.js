@@ -411,7 +411,7 @@ module.exports = {
   "FileReader-test": path.resolve(__dirname, "../Libraries/Blob/__tests__/FileReader-test.js"),
   "BlobModule": path.resolve(__dirname, "../Libraries/Blob/__mocks__/BlobModule.js"),
   "FileReaderModule": path.resolve(__dirname, "../Libraries/Blob/__mocks__/FileReaderModule.js"),
-  "BatchedBridge": path.resolve(__dirname, "../Libraries/BatchedBridge/BatchedBridge.js"),
+  "BatchedBridge": path.resolve(__dirname, "lib/es6/src/BatchedBridge.bs.js"),
   "MessageQueue": path.resolve(__dirname, "../Libraries/BatchedBridge/MessageQueue.js"),
   "NativeModules": path.resolve(__dirname, "../Libraries/BatchedBridge/NativeModules.js"),
   "MessageQueue-test": path.resolve(__dirname, "../Libraries/BatchedBridge/__tests__/MessageQueue-test.js"),
