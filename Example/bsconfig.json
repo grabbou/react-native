@@ -1,9 +1,13 @@
 {
   "name": "reasonml-example",
   "sources": [
-    {
-      "dir": "src"
-    }
+		{
+			"dir": "next",
+			"subdirs": true
+		}
+	],
+	"bs-dependencies": [
+    "reason-react"
   ],
   "bsc-flags": ["-bs-super-errors"],
   "reason": {
@@ -12,6 +16,6 @@
   "refmt": 3,
   "package-specs": [{
     "module": "es6"
-  }],
+	}],
   "suffix": ".bs.js"
 }

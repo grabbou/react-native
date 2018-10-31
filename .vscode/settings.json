@@ -51,6 +51,9 @@
     "third-party": "explorerExcludedFiles",
     "*.xcodeproj": "explorerExcludedFiles",
     "ReactCommon/**/*.xcodeproj": "explorerExcludedFiles",
-    "RNTester/build": "explorerExcludedFiles"
+    "RNTester/build": "explorerExcludedFiles",
+    "Example/lib/**/*": "explorerExcludedFiles",
+    ".merlin": "explorerExcludedFiles",
+    ".bsb.lock": "explorerExcludedFiles"
   }
 }

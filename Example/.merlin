@@ -5,6 +5,10 @@ S /Users/grabbou/Repositories/react-native-new/Example/node_modules/bs-platform/
 B /Users/grabbou/Repositories/react-native-new/Example/node_modules/bs-platform/lib/ocaml
 FLG -nostdlib -color always
 FLG -w -30-40+6+7+27+32..39+44+45+101
-S src
-B lib/bs/src
+S /Users/grabbou/Repositories/react-native-new/Example/node_modules/reason-react/lib/ocaml
+B /Users/grabbou/Repositories/react-native-new/Example/node_modules/reason-react/lib/ocaml
+S next
+B lib/bs/next
+S next/ReactNative
+B lib/bs/next/ReactNative
 ####BSB GENERATED: NO EDIT}
