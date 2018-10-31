@@ -72,7 +72,7 @@ let make = () => {
     eventLoopStartTime := lastFlush^;
 
     /* Should do some Systrace stuff */
-    
+
     let moduleMethods = Js.Null.getExn(getCallableModule(module_));
     if ([%raw "!moduleMethods[method_]"]) {
       raise(Sys_error("can't call " ++ method ++ " on " ++ [%bs.raw "JSON.stringify(moduleMethods)"]));
