@@ -20,31 +20,3 @@ type nativeModules('manager) = {
 
 [@bs.module]
 external nativeModules: nativeModules('manager) = "NativeModules";
-/*
- [%raw
-   {|
- const BatchedBridge = require('BatchedBridge');
- BatchedBridge.registerLazyCallableModule('Systrace', () => require('Systrace'));
- BatchedBridge.registerLazyCallableModule('JSTimers', () => require('JSTimers'));
- BatchedBridge.registerLazyCallableModule('HeapCapture', () =>
-   require('HeapCapture'),
- );
- BatchedBridge.registerLazyCallableModule('SamplingProfiler', () =>
-   require('SamplingProfiler'),
- );
- BatchedBridge.registerLazyCallableModule('RCTLog', () => require('RCTLog'));
- BatchedBridge.registerLazyCallableModule('RCTDeviceEventEmitter', () =>
-   require('RCTDeviceEventEmitter'),
- );
- BatchedBridge.registerLazyCallableModule('RCTNativeAppEventEmitter', () =>
-   require('RCTNativeAppEventEmitter'),
- );
- BatchedBridge.registerLazyCallableModule('PerformanceLogger', () =>
-   require('PerformanceLogger'),
- );
- BatchedBridge.registerLazyCallableModule('JSDevSupportModule', () =>
-   require('JSDevSupportModule'),
- );
- |}
- ];
- */

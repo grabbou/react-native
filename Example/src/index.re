@@ -1,9 +1,5 @@
-let registerRunnable =
-  AppRegistry.registerRunnableGet(AppRegistry.appRegistry);
-
 let run = _ =>
-  MessageQueueRe.enqueueNativeCallGet(
-    BatchedBridge.batchedBridge,
+  BatchedBridge.batchedBridge->MessageQueueRe.enqueueNativeCallGet(
     4,
     0,
     [|
@@ -14,7 +10,9 @@ let run = _ =>
         "type": "default",
       }),
     |],
-    (),
+    Some(Js.log),
+    None,
   );
 
-registerRunnable("RNTester", run);
+AppRegistry.appRegistry->AppRegistry.registerRunnableGet("RNTester", run);
+

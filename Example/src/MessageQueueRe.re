@@ -1,31 +1,22 @@
+type queue('a) = (array(int), array(int), array(array('a)), int);
+
 [@bs.deriving abstract]
 type messageQueue('a) = {
   enqueueNativeCall:
-    (
-      int,
-      int,
-      array({.}),
-      ~onFail: unit => unit=?,
-      ~onSuccess: unit => unit=?,
-      unit
-    ) =>
+    (int, int, array({.}), option(unit => unit), option(unit => unit)) =>
     unit,
   registerCallableModule: (string, 'a) => unit,
   registerLazyCallableModule: (string, unit => 'a) => unit,
   setImmediatesCallback: (unit => unit) => unit,
   getEventLoopRunningTime: unit => float,
-  getCallableModule: string => option('a),
-  flushedQueue:
-    unit => option((array(int), array(int), array(array('a)), int)),
+  getCallableModule: string => Js.Null.t('a),
+  flushedQueue: unit => Js.Null.t(queue('a)),
   callFunctionReturnFlushedQueue:
-    (string, string, array({.})) =>
-    option((array(int), array(int), array(array('a)), int)),
+    (string, string, array({.})) => Js.Null.t(queue('a)),
   callFunctionReturnResultAndFlushedQueue:
-    (string, string, array({.})) =>
-    ({.}, option((array(int), array(int), array(array('a)), int))),
+    (string, string, array({.})) => ({.}, Js.Null.t(queue('a))),
   invokeCallbackAndReturnFlushedQueue:
-    (int, array({.})) =>
-    option((array(int), array(int), array(array('a)), int)),
+    (int, array({.})) => Js.Null.t(queue('a)),
 };
 
 /*
@@ -62,10 +53,13 @@ let make = () => {
   let guard = fn => fn();
 
   let getCallableModule = name =>
-    switch (Belt.MutableMap.String.get(lazyCallableModules, name)) {
-    | Some(getValue) => Some(getValue())
-    | None => None
-    };
+    (
+      switch (Belt.MutableMap.String.get(lazyCallableModules, name)) {
+      | Some(getValue) => Some(getValue())
+      | None => None
+      }
+    )
+    |> Js.Null.fromOption;
 
   let registerCallableModule = (name, module_: 'a) =>
     Belt.MutableMap.String.set(lazyCallableModules, name, () => module_);
@@ -78,13 +72,18 @@ let make = () => {
     eventLoopStartTime := lastFlush^;
 
     /* Should do some Systrace stuff */
-
-    switch (getCallableModule(module_)) {
-    | Some(moduleMethods) =>
-      %raw
-      "moduleMethods[method].apply(moduleMethods, args)"
-    | None => raise(Not_found) /* TODO: use better error */
-    };
+    
+    let moduleMethods = Js.Null.getExn(getCallableModule(module_));
+    if ([%raw "!moduleMethods[method_]"]) {
+      raise(Sys_error("can't call " ++ method ++ " on " ++ [%bs.raw "JSON.stringify(moduleMethods)"]));
+    } else {
+      let applyModuleMethods = [%raw {|
+        function (mM, method, a,) {
+          mM[method].apply(mM, a);
+        }
+      |}];
+      applyModuleMethods(moduleMethods, method, args)
+    }
   };
 
   let callImmediates = () =>
@@ -96,16 +95,16 @@ let make = () => {
   let setImmediatesCallback = fn => immediatesCallback := Some(fn);
 
   let flushedQueue = () => {
-    guard(() => callImmediates());
+    let () = guard(() => callImmediates());
 
     let q = queue^;
     let (a, _, _, _) = q;
     queue := ([||], [||], [||], callId^);
-    Belt.Array.length(a) > 0 ? Some(q) : None;
+    (Belt.Array.length(a) > 0 ? Some(q) : None)->Js.Null.fromOption;
   };
 
   let callFunctionReturnFlushedQueue = (module_, method, args) => {
-    guard(() => callFunction(module_, method, args));
+    let () = guard(() => callFunction(module_, method, args));
 
     flushedQueue();
   };
@@ -146,25 +145,20 @@ let make = () => {
         moduleId: int,
         methodId: int,
         params: array('a),
-        ~onFail: option(unit => unit)=?,
-        ~onSuccess: option(unit => unit)=?,
-        (),
+        onFail: option(unit => unit),
+        onSuccess: option(unit => unit),
       ) => {
     switch (onFail, onSuccess) {
     | (Some(onFail), Some(onSuccess)) =>
-      %raw
-      {|params.push(callId << 1)|};
-      %raw
-      {|params.push((callId << 1) | 1)|};
+      Js.Array.push([%raw "callId << 1"], params);
+      Js.Array.push([%raw "params.push((callId << 1) | 1)"], params);
       Belt.MutableMap.Int.set(successCallbacks, callId^, onSuccess);
       Belt.MutableMap.Int.set(failureCallbacks, callId^, onFail);
     | (Some(onFail), None) =>
-      %raw
-      {|params.push(callId << 1)|};
+       Js.Array.push([%raw "callId << 1"], params);
       Belt.MutableMap.Int.set(failureCallbacks, callId^, onFail);
     | (None, Some(onSuccess)) =>
-      %raw
-      {|params.push((callId << 1) | 1)|};
+      Js.Array.push([%raw "params.push((callId << 1) | 1)"], params);
       Belt.MutableMap.Int.set(successCallbacks, callId^, onSuccess);
     | _ => ()
     };
@@ -182,8 +176,8 @@ let make = () => {
       let q = queue^;
       queue := ([||], [||], [||], callId^);
       lastFlush := now;
-      %raw
-      "global.nativeFlushQueueImmediate(q)";
+      let flushImmediate = [%raw "function (q) { global.nativeFlushQueueImmediate(q) }"];
+      flushImmediate(.q);
     };
     ();
   };
