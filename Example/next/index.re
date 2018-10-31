@@ -10,6 +10,6 @@ module App = {
 
 ReactNative.render(props =>
   Map.String.(
-		App.make(~locale=getWithDefault(props, "locale", "en"), [||])
-	)
+    App.make(~locale=getWithDefault(props, "locale", "en"), [||])
+  )
 );
