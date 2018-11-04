@@ -1,9 +1,20 @@
-module AppRegistry = AppRegistry.Make({
-  type component = ReasonReact.component(
-    ReasonReact.stateless,
-    ReasonReact.noRetainedProps,
-    ReasonReact.actionless
-  );
-});
+module AppRegistry =
+  AppRegistry.Make({
+    type component =
+      ReasonReact.component(
+        ReasonReact.stateless,
+        ReasonReact.noRetainedProps,
+        ReasonReact.actionless,
+      );
+  });
 
-let render = (component) => AppRegistry.registerRunnable("App", component);
+module Bridge =
+  Bridge.Make({
+    let handleModuleCall = (method, _args) =>
+      switch (method) {
+      | "AppRegistry.runApplication" => ()
+      | _ => ()
+      };
+  });
+
+let render = component => AppRegistry.registerRunnable("App", component);
